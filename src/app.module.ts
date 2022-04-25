@@ -26,8 +26,7 @@ const mockHumanService = {
 const connectionFactory = {
   provide: 'CONNECTION',
   useFactory: (optionsProvider: HumanService) => {
-    const options = optionsProvider.get();
-    return new DogsService(options);
+    return new DogsService();
   },
   inject: [HumanService],
 };
@@ -40,10 +39,10 @@ const connectionFactory = {
     DogsService,
     HumanService,
     //值的provider
-    {
-      provide: HumanService,
-      useValue: mockHumanService,
-    },
+    // {
+    //   provide: HumanService,
+    //   useValue: mockHumanService,
+    // },
     //useFactory
     connectionFactory,
     {

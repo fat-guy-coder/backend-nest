@@ -16,7 +16,8 @@ export class HumanService {
   findAll(): Human[] {
     return this.humans;
   }
-  get() {
-    return {};
+
+  getSome(): any {
+    return { name: 'getSome' };
   }
 }
