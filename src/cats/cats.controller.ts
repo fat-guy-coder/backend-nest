@@ -10,7 +10,11 @@ import {
   Param,
   Delete,
   Header,
+  HttpException,
+  HttpStatus,
+  ParseIntPipe,
 } from '@nestjs/common';
+import { ApiQuery } from '@nestjs/swagger';
 import { CreateCatDto, UpdateCatDto, ListAllEntities } from './dto';
 
 @Controller('cats')
@@ -21,13 +25,14 @@ export class CatsController {
     return 'This action adds a new cat';
   }
 
+  @ApiQuery({ name: 'limit', required: false })
   @Get()
   findAll(@Query() query: ListAllEntities) {
     return `This action returns all cats (limit: ${query.limit} items)`;
   }
 
-  @Get('small:id')
-  findOne(@Param('id') id: string) {
+  @Get('small') //使用转数字pipe
+  findOne(@Query('id', new ParseIntPipe()) id: string) {
     return `This action returns a #${id} cat`;
   }
 

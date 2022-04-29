@@ -13,6 +13,10 @@ export class HumanService {
     this.humans.push(human);
   }
 
+  add(human: Human) {
+    this.humans.push(human);
+  }
+
   findAll(): Human[] {
     return this.humans;
   }

@@ -12,6 +12,12 @@ export class HumanController {
     this.catsService.create(createCatDto);
   }
 
+  @Get('add')
+  async add(): Promise<any> {
+    this.catsService.add({ name: 'add', age: 1, gender: 'man' });
+    return { code: 0, message: 'sucess' };
+  }
+
   @Get()
   async findAll(): Promise<Human[]> {
     return this.catsService.findAll();

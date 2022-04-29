@@ -8,17 +8,24 @@ import {
   HostParam,
   Res,
   HttpStatus,
+  UsePipes,
+  Query,
+  UseGuards,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { CreateCatDto } from './dto'; //建立专门的DTO类型文件
-
+import { ValidationPipe } from '../common/pipes/validatepipe.pipe';
+import { ParseIntPipe } from '../common/pipes/parse-intpipe.pipe';
+import { RolesGuard } from '../common/guards/myguard.guard';
+import { Roles } from '../common/decorators/role.decorator';
 //@Controller('d*f') 路由通配符
 
 //@Controller({ host: 'admin.example.com' })域名
 
 //@Controller({ host: ':account.example.com' })域名参数
 
-@Controller('dogs:id') // 定义路由
+@Controller('dogs') // 定义路由
+@UseGuards(RolesGuard /**new RolesGuard()**/) //使用角色守卫
 export class DogsController {
   @Get() // 定义路由 RESFUL风格 如果是get请求，则返回一个字符串  如果传参数则拼接cats  请求生成路由映射  @Get('cats') 则为 GET /dogs/cats
   findAll(): string {
@@ -46,10 +53,11 @@ export class DogsController {
     // }
   }
 
-  findById(@Param('id') id): string {
+  @Get('parseint')
+  @UsePipes(new ValidationPipe())
+  findById(@Query('id', new ParseIntPipe()) id): string {
     //id  如果参数装饰器中传了参数字段,即可直接获取参数
-    console.log(id);
-    return 'This action returns all cats';
+    return `This action returns ${id} cats`;
   }
 
   getHostParam(@HostParam('account') account): string {
@@ -68,10 +76,10 @@ export class DogsController {
   // }
 
   //DTO 类型限制
-  @Post()
-  async create(@Body() createCatDto: CreateCatDto) {
-    console.log(createCatDto);
-    return 'This action adds a new cat';
+  @Post('adddog')
+  @Roles('roles', 'admin')
+  async create(@Body(new ValidationPipe()) createCatDto: CreateCatDto) {
+    return `This action adds a cat`;
   }
 
   @Get('small:id')

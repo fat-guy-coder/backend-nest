@@ -47,11 +47,11 @@ const connectionFactory = {
     //   useValue: mockHumanService,
     // },
     //useFactory
-    connectionFactory,
-    {
-      provide: 'HUMAN',
-      useValue: HumanService,
-    },
+    // connectionFactory,
+    // {
+    //   provide: 'HUMAN',
+    //   useValue: HumanService,
+    // },
     MiddlewareService,
   ],
 })
